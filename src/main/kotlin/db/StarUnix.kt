@@ -31,13 +31,18 @@ class StarUnix {
         }
     }
 
-    fun getAll(): List<Nave> {
-        log.debug { "Obteniendo registro completo" }
-        return registros
+    suspend fun getAll(): List<Nave> {
+        lock.withLock {
+            log.debug { "Obteniendo registro completo" }
+            return registros
+        }
     }
 
-    fun getInfoDetallada(): String {
-        log.debug { "Obteniendo misiles | Recuento de naves" }
-        return "Total naves: ${registros.size} |Total misiles: $misiles"
+    suspend fun getInfoDetallada(): String {
+        lock.withLock {
+            log.debug { "Obteniendo misiles | Recuento de naves" }
+            return "Total naves: ${registros.size} |Total misiles: $misiles"
+
+        }
     }
 }
